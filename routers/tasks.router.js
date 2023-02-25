@@ -16,8 +16,6 @@ const express = require("express");
 const { ObjectId } = require("mongodb");
 const TaskController = require("../controllers/taskController");
 const router = express.Router();
-const { getDb } = require("../db/db");
-const Task = require("../models/task");
 
 /**
  * Create a new task.

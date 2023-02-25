@@ -13,8 +13,6 @@ const express = require("express");
 const { ObjectId } = require("mongodb");
 const ProjectController = require("../controllers/projectControllers");
 const router = express.Router();
-const { getDb } = require("../db/db");
-const Project = require("../models/project");
 
 /**
  * Create a new project.
@@ -22,7 +20,7 @@ const Project = require("../models/project");
 router.post("/create", async (req, res) => {
   try {
     const { name, startDate, dueDate } = req.body;
-    const newProject = await Project.createProject(
+    const newProject = await ProjectController.createProject(
       name,
       startDate,
       dueDate
