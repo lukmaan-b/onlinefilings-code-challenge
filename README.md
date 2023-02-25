@@ -21,8 +21,7 @@ npm start
 Make sure you have a mongoDB server running.
 change database connection string in db.js.
 https://github.com/lukmaan-b/onlinefilings-code-challenge/blob/fdbe36a1845402c0bc632ea2c08bcf23eae1e680/db/db.js#L4
-You can also change the database to connect to in db.js.
-https://github.com/lukmaan-b/onlinefilings-code-challenge/blob/fdbe36a1845402c0bc632ea2c08bcf23eae1e680/db/db.js#L10
+You can also change the database to connect to in db.js by changing the parameter of connectDb.
 
 ## Folder Structure
 ### Controllers
