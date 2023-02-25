@@ -65,22 +65,21 @@ class TaskController {
    * Updates a task using it's id.
    * @param {ObjectId} id Task id to update.
    * @param {string} name New task name
+   * @param {string} dueDate New task due date
    * @returns {Task} Returns the updated task
    */
-  static async updateTask(id, name) {
+  static async updateTask(id, name,dueDate) {
     await this.throwErrorIfTaskNotExist(id);
-    if (!name || name === "") {
-      throw new Error("Name is required");
-    }
     const db = getDb();
-    const updatedTask = await db
+    const taskInDB = await db.collection('tasks').findOne({ _id: id });
+    const updatedTask = new Task(name, taskInDB.status, dueDate, taskInDB.startDate);
+    await db
       .collection("tasks")
-      .findOneAndUpdate(
+      .updateOne(
         { _id: id },
-        { $set: { name } },
-        { returnDocument: "after" }
+        { $set: { name, dueDate } }
       );
-    return updatedTask.value;
+    return updatedTask;
   }
 
   /**

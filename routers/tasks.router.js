@@ -55,14 +55,12 @@ router.get("/list", async (req, res) => {
  */
 router.patch("/:id", async (req, res) => {
   try {
-    const { name, status, dueDate, startDate } = req.body;
+    const { name, dueDate} = req.body;
     const id = new ObjectId(req.params.id);
     const updatedTask = await TaskController.updateTask(
       id,
       name,
-      status,
-      dueDate,
-      startDate
+      dueDate
     );
     res.send(updatedTask);
   } catch (error) {
