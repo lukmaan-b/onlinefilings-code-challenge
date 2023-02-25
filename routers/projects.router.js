@@ -72,7 +72,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = new ObjectId(req.params.id);
-await ProjectController.deleteProject(id);
+    await ProjectController.deleteProject(id);
     res.send("Project deleted");
   } catch (error) {
     res.status(400).send("Error deleting project");

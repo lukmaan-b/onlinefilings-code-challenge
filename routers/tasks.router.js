@@ -86,7 +86,7 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id/done", async (req, res) => {
   try {
     const id = new ObjectId(req.params.id);
-await TaskController.markTaskAsDone(id);
+    await TaskController.markTaskAsDone(id);
     res.send("Task Completed");
   } catch (error) {
     res.status(400).send("Error updating task");
@@ -98,8 +98,7 @@ await TaskController.markTaskAsDone(id);
  */
 router.get("/status/:status", async (req, res) => {
   try {
-    
-const tasks = await TaskController.getTasksByStatus(req.params.status);
+    const tasks = await TaskController.getTasksByStatus(req.params.status);
     res.send(tasks);
   } catch (error) {
     res.status(400).send("Error getting tasks by status");
@@ -123,7 +122,9 @@ router.get("/name/:name", async (req, res) => {
  */
 router.get("/sort/date/:sortType", async (req, res) => {
   try {
-    const tasks = await TaskController.getTasksSortedByDate(req.params.sortType);
+    const tasks = await TaskController.getTasksSortedByDate(
+      req.params.sortType
+    );
     res.send(tasks);
   } catch (error) {
     res.status(400).send("Error sorting tasks");

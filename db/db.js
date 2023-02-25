@@ -12,7 +12,7 @@ let connection;
  *
  */
 const connectDb = async () => {
-   connection = await client.connect(); // Connect to the MongoDB database.
+  connection = await client.connect(); // Connect to the MongoDB database.
   db = connection.db("todoList"); // Change to your own database name.
   console.log("Connected to MongoDB");
 };
@@ -64,4 +64,10 @@ const closeConnection = async () => {
   await connection.close();
 };
 
-module.exports = { getDb, connectDb, clearTasks, clearProjects, closeConnection};
+module.exports = {
+  getDb,
+  connectDb,
+  clearTasks,
+  clearProjects,
+  closeConnection,
+};

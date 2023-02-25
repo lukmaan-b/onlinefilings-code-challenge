@@ -73,7 +73,9 @@ describe("taskController", () => {
         "2023-03-01",
         "2023-02-02"
       );
-      await getDb().collection("tasks").insertMany([taskToCreate, taskToCreate2]);
+      await getDb()
+        .collection("tasks")
+        .insertMany([taskToCreate, taskToCreate2]);
       const tasks = await TaskController.getTasks();
       expect(tasks.length).toBe(2);
     });
@@ -235,7 +237,7 @@ describe("taskController", () => {
       expect(tasks.length).toBe(2);
     });
   });
-  
+
   describe("getTasksBySortDate", () => {
     it("should get all tasks by start date", async () => {
       const taskToCreate = new Task(
@@ -270,7 +272,7 @@ describe("taskController", () => {
         "to-do",
         "2023-03-01",
         "2023-02-02"
-      )
+      );
       taskToCreate.doneDate = new Date("2023-01-03");
       const taskToCreate2 = new Task(
         "Test task 2",
@@ -327,7 +329,7 @@ describe("taskController", () => {
         "to-do",
         "2023-03-01",
         "2023-02-02"
-      )
+      );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",

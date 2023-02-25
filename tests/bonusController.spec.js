@@ -1,5 +1,11 @@
 const BonusController = require("../controllers/bonusController");
-const { getDb, closeConnection, clearTasks, connectDb, clearProjects } = require("../db/db");
+const {
+  getDb,
+  closeConnection,
+  clearTasks,
+  connectDb,
+  clearProjects,
+} = require("../db/db");
 const Project = require("../models/project");
 const Task = require("../models/task");
 
@@ -31,9 +37,9 @@ describe("bounsController", () => {
       );
       const taskToCreate = new Task(
         "Task 1",
-        'to-do',
+        "to-do",
         new Date(),
-        "2023-01-02",
+        "2023-01-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
       projectToCreate.tasks = [taskToCreate._id];
@@ -57,9 +63,9 @@ describe("bounsController", () => {
       );
       const taskToCreate = new Task(
         "Task 1",
-        'to-do',
+        "to-do",
         "2023-01-01",
-        "2023-01-01",
+        "2023-01-01"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
       projectToCreate.tasks = [taskToCreate._id];
@@ -76,31 +82,33 @@ describe("bounsController", () => {
       const projectToCreate = new Project(
         "Project 1",
         "2023-01-01",
-        new Date(),
+        new Date()
       );
       const projectToCreate2 = new Project(
         "Project 1",
         "2023-01-01",
-        "2023-01-01",
+        "2023-01-01"
       );
       await getDb()
         .collection("projects")
         .insertMany([projectToCreate, projectToCreate2]);
       const taskToCreate = new Task(
         "Task 1",
-        'to-do',
+        "to-do",
         "2023-01-01",
-        "2023-01-01",
+        "2023-01-01"
       );
       taskToCreate.projectId = projectToCreate._id;
       const taskToCreate2 = new Task(
         "Task 1",
-        'to-do',
+        "to-do",
         "2023-01-01",
-        "2023-01-01",
+        "2023-01-01"
       );
       taskToCreate2.projectId = projectToCreate2._id;
-      await getDb().collection("tasks").insertMany([taskToCreate, taskToCreate2]);
+      await getDb()
+        .collection("tasks")
+        .insertMany([taskToCreate, taskToCreate2]);
       const tasks = await BonusController.getAllTasksWithDueProjects();
       expect(tasks.length).toBe(1);
       expect(tasks[0].name).toBe(taskToCreate.name);
@@ -109,5 +117,5 @@ describe("bounsController", () => {
       const tasks = await BonusController.getAllTasksWithDueProjects();
       expect(tasks.length).toBe(0);
     });
-  });  
+  });
 });

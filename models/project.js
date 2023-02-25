@@ -1,5 +1,4 @@
 class Project {
-  
   /**
    * checkRequiredFields
    * Check if all required fields are on the object.

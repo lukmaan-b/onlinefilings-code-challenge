@@ -135,7 +135,12 @@ describe("projectController", () => {
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1",'to-do', "2023-03-01", "2023-01-01");
+      const taskToCreate = new Task(
+        "Task 1",
+        "to-do",
+        "2023-03-01",
+        "2023-01-01"
+      );
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -153,7 +158,12 @@ describe("projectController", () => {
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1",'to-do', "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task(
+        "Task 1",
+        "to-do",
+        "2023-01-01",
+        "2023-01-01"
+      );
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -182,7 +192,12 @@ describe("projectController", () => {
       await getDb()
         .collection("projects")
         .insertMany([projectToCreate, projectToCreate2]);
-      const taskToCreate = new Task("Task 1",'to-do', "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task(
+        "Task 1",
+        "to-do",
+        "2023-01-01",
+        "2023-01-01"
+      );
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -208,7 +223,12 @@ describe("projectController", () => {
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1",'to-do', "2023-03-01", "2023-01-01");
+      const taskToCreate = new Task(
+        "Task 1",
+        "to-do",
+        "2023-03-01",
+        "2023-01-01"
+      );
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -221,39 +241,92 @@ describe("projectController", () => {
     });
   });
 
-  describe('getTasksByProjectName', () => {
-    it('should get all tasks by project name', async () => {
-      const projectToCreate = new Project('Project 1', '2023-01-01', '2023-01-01');
-      await getDb().collection('projects').insertOne(projectToCreate);
-      const taskToCreate = new Task('Task 1','to-do', '2023-01-01', '2023-01-01');
+  describe("getTasksByProjectName", () => {
+    it("should get all tasks by project name", async () => {
+      const projectToCreate = new Project(
+        "Project 1",
+        "2023-01-01",
+        "2023-01-01"
+      );
+      await getDb().collection("projects").insertOne(projectToCreate);
+      const taskToCreate = new Task(
+        "Task 1",
+        "to-do",
+        "2023-01-01",
+        "2023-01-01"
+      );
       taskToCreate.projectId = projectToCreate._id;
-      const taskToCreate2 = new Task('Task 2','to-do', '2023-01-01', '2023-01-01');
+      const taskToCreate2 = new Task(
+        "Task 2",
+        "to-do",
+        "2023-01-01",
+        "2023-01-01"
+      );
       taskToCreate2.projectId = projectToCreate._id;
-      const taskToCreate3 = new Task('Task 3','to-do', '2023-01-01', '2023-01-01');
-      await getDb().collection('tasks').insertMany([taskToCreate, taskToCreate2, taskToCreate3]);
-      const tasks = await ProjectController.getTasksByProjectName(projectToCreate.name);
+      const taskToCreate3 = new Task(
+        "Task 3",
+        "to-do",
+        "2023-01-01",
+        "2023-01-01"
+      );
+      await getDb()
+        .collection("tasks")
+        .insertMany([taskToCreate, taskToCreate2, taskToCreate3]);
+      const tasks = await ProjectController.getTasksByProjectName(
+        projectToCreate.name
+      );
       expect(tasks[0].projectId).toEqual(projectToCreate._id);
       expect(tasks[1].projectId).toEqual(projectToCreate._id);
       expect(tasks.length).toEqual(2);
     });
   });
 
-  describe('getProjectsBySortDate', () => {
+  describe("getProjectsBySortDate", () => {
     it("should get all projects sorted by start date", async () => {
-      const projectToCreate = new Project("Project 1", "2023-01-03", "2023-01-01");
-      const projectToCreate2 = new Project("Project 2", "2023-01-01", "2023-01-01");
-      const projectToCreate3 = new Project("Project 3", "2023-01-02", "2023-01-01");
-      await getDb().collection("projects").insertMany([projectToCreate, projectToCreate2, projectToCreate3]);
-      const projects = await ProjectController.getProjectsBySortDate("startDate");
+      const projectToCreate = new Project(
+        "Project 1",
+        "2023-01-03",
+        "2023-01-01"
+      );
+      const projectToCreate2 = new Project(
+        "Project 2",
+        "2023-01-01",
+        "2023-01-01"
+      );
+      const projectToCreate3 = new Project(
+        "Project 3",
+        "2023-01-02",
+        "2023-01-01"
+      );
+      await getDb()
+        .collection("projects")
+        .insertMany([projectToCreate, projectToCreate2, projectToCreate3]);
+      const projects = await ProjectController.getProjectsBySortDate(
+        "startDate"
+      );
       expect(projects[0].name).toEqual("Project 2");
       expect(projects[1].name).toEqual("Project 3");
       expect(projects[2].name).toEqual("Project 1");
     });
     it("should get all projects sorted by end date", async () => {
-      const projectToCreate = new Project("Project 1", "2023-01-01", "2023-01-03");
-      const projectToCreate2 = new Project("Project 2", "2023-01-01", "2023-01-01");
-      const projectToCreate3 = new Project("Project 3", "2023-01-01", "2023-01-02");
-      await getDb().collection("projects").insertMany([projectToCreate, projectToCreate2, projectToCreate3]);
+      const projectToCreate = new Project(
+        "Project 1",
+        "2023-01-01",
+        "2023-01-03"
+      );
+      const projectToCreate2 = new Project(
+        "Project 2",
+        "2023-01-01",
+        "2023-01-01"
+      );
+      const projectToCreate3 = new Project(
+        "Project 3",
+        "2023-01-01",
+        "2023-01-02"
+      );
+      await getDb()
+        .collection("projects")
+        .insertMany([projectToCreate, projectToCreate2, projectToCreate3]);
       const projects = await ProjectController.getProjectsBySortDate("dueDate");
       expect(projects[0].name).toEqual("Project 2");
       expect(projects[1].name).toEqual("Project 3");
