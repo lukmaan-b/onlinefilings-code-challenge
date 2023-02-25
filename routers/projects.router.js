@@ -27,6 +27,7 @@ router.post("/create", async (req, res) => {
     );
     res.send(newProject);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error creating project");
   }
 });
@@ -39,6 +40,7 @@ router.get("/list", async (req, res) => {
     const projects = await ProjectController.getProjects();
     res.send(projects);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting projects");
   }
 });
@@ -58,10 +60,7 @@ router.put("/:id", async (req, res) => {
     );
     res.send(updatedProject);
   } catch (error) {
-    console.log(
-      "🚀 ~ file: projects.router.js:39 ~ router.put ~ error:",
-      error
-    );
+    console.error(error);
     res.status(400).send("Error updating project");
   }
 });
@@ -75,6 +74,7 @@ router.delete("/:id", async (req, res) => {
     await ProjectController.deleteProject(id);
     res.send("Project deleted");
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error deleting project");
   }
 });
@@ -89,6 +89,7 @@ router.post("/assign/:projectId/:taskId", async (req, res) => {
     await ProjectController.assignTaskToProject(projectId, taskId);
     res.send("Task assigned to project");
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error assigning task to project");
   }
 });
@@ -102,6 +103,7 @@ router.get("/projectName/:name", async (req, res) => {
     const tasks = await ProjectController.getTasksByProjectName(name);
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting tasks");
   }
 });
@@ -115,6 +117,7 @@ router.get("/sort/date/:sortType", async (req, res) => {
     const projects = await ProjectController.getProjectsBySortDate(sortType);
     res.send(projects);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting projects");
   }
 });

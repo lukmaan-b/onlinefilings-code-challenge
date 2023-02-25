@@ -13,6 +13,7 @@ router.get("/due/projects", async (req, res) => {
     const projects = await BonusController.getAllProjectsWithDueTasks();
     res.send(projects);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting projects");
   }
 });
@@ -22,6 +23,7 @@ router.get("/due/tasks", async (req, res) => {
     const tasks = await BonusController.getAllTasksWithDueProjects();
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting tasks");
   }
 });

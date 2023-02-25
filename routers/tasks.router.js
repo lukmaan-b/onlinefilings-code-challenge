@@ -26,11 +26,13 @@ router.post("/create", async (req, res) => {
     const newTask = await TaskController.createTask(
       name,
       status,
+      dueDate,
       startDate,
-      dueDate
+
     );
     res.send(newTask);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error creating task");
   }
 });
@@ -43,6 +45,7 @@ router.get("/list", async (req, res) => {
     const tasks = await TaskController.getTasks();
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting tasks");
   }
 });
@@ -63,6 +66,7 @@ router.put("/:id", async (req, res) => {
     );
     res.send(updatedTask);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error updating task");
   }
 });
@@ -76,6 +80,7 @@ router.delete("/:id", async (req, res) => {
     await TaskController.deleteTask(id);
     res.send("Task deleted");
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error deleting task");
   }
 });
@@ -89,6 +94,7 @@ router.post("/:id/done", async (req, res) => {
     await TaskController.markTaskAsDone(id);
     res.send("Task Completed");
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error updating task");
   }
 });
@@ -101,6 +107,7 @@ router.get("/status/:status", async (req, res) => {
     const tasks = await TaskController.getTasksByStatus(req.params.status);
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting tasks by status");
   }
 });
@@ -113,6 +120,7 @@ router.get("/name/:name", async (req, res) => {
     const tasks = await TaskController.getTasksByName(req.params.name);
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error getting tasks by name");
   }
 });
@@ -127,6 +135,7 @@ router.get("/sort/date/:sortType", async (req, res) => {
     );
     res.send(tasks);
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error sorting tasks");
   }
 });
