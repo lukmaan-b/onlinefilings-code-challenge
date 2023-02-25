@@ -1,0 +1,26 @@
+{
+  "name": "onlinefilings-code-challenge",
+  "version": "1.0.0",
+  "description": "Part 1 coding challenge for OnflineFilings",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukmaan-b/onlinefilings-code-challenge.git"
+  },
+  "author": "Lukmaan Butt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukmaan-b/onlinefilings-code-challenge/issues"
+  },
+  "homepage": "https://github.com/lukmaan-b/onlinefilings-code-challenge#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.4.3"
+  }
+}
