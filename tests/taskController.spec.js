@@ -98,7 +98,8 @@ describe("taskController", () => {
       await getDb().collection("tasks").insertOne(taskToCreate);
       const updatedTask = await TaskController.updateTask(
         taskToCreate._id,
-        taskToUpdate.name
+        taskToUpdate.name,
+        taskToUpdate.dueDate
       );
       expect(updatedTask).toEqual(expect.objectContaining(taskToUpdate));
     });
