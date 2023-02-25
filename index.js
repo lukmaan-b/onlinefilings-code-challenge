@@ -23,4 +23,4 @@ app.use("/projects", projectRouter);
 app.use("/bonus", bonusRouter);
 
 // Start the server
-app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
+app.listen(PORT);
