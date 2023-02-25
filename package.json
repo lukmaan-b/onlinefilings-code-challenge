@@ -4,7 +4,8 @@
   "description": "Part 1 coding challenge for OnflineFilings",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js -L",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "mongodb": "^5.1.0"
   },
   "devDependencies": {
-    "jest": "^29.4.3"
+    "jest": "^29.4.3",
+    "nodemon": "^2.0.20"
   }
 }
