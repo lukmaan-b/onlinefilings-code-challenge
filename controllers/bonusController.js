@@ -1,3 +1,5 @@
+const { getDb } = require("../db/db");
+
 /**
  * BonusController
  * @class

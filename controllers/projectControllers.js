@@ -1,6 +1,8 @@
 const { ObjectId } = require("mongodb");
 const { getDb } = require("../db/db");
+const Project = require("../models/project");
 const Task = require("../models/task");
+const TaskController = require("./taskController");
 
 /**
  * ProjectController
@@ -17,7 +19,7 @@ class ProjectController {
    */
   static async checkProjectExist(id) {
     const db = getDb();
-    const project = !!db.collection("projects").findOne({ _id: id });
+    const project = await db.collection("projects").findOne({ _id: id });
     return !!project;
   }
 
@@ -26,7 +28,7 @@ class ProjectController {
    * Throws an error if a project does not exist.
    * @param {ObjectId} id Project id to check if exist.
    */
-  async throwErrorIfProjectNotExist(id) {
+  static async throwErrorIfProjectNotExist(id) {
     const projectExist = await this.checkProjectExist(id);
     if (!projectExist) {
       throw new Error("Project not found");
@@ -69,8 +71,8 @@ class ProjectController {
    * @returns {Project} Returns the updated project
    */
   static async updateProject(id, name, startDate, dueDate) {
-    const db = getDb();
     await this.throwErrorIfProjectNotExist(id);
+    const db = getDb();
     const updatedProject = new Project(name, startDate, dueDate);
     await db
       .collection("projects")
@@ -86,6 +88,7 @@ class ProjectController {
    */
   static async deleteProject(id) {
     await this.throwErrorIfProjectNotExist(id);
+    const db = getDb();
     await db.collection("projects").deleteOne({ _id: id });
   }
 
@@ -102,6 +105,8 @@ class ProjectController {
     // Check if project and task exist
     await this.throwErrorIfProjectNotExist(projectId);
     await TaskController.throwErrorIfTaskNotExist(taskId);
+
+    const db = getDb();
 
     // Check if task is already assigned to a project
     const taskAssignedToProject = await db

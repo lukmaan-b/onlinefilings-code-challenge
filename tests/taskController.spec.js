@@ -15,6 +15,32 @@ describe("taskController", () => {
     await closeConnection();
   });
 
+  describe("checkTaskExist", () => {
+    it("should return true if task exist", async () => {
+      const taskToCreate = new Task(
+        "Test task",
+        "to-do",
+        "2023-01-01",
+        "2023-02-02"
+      );
+      await getDb().collection("tasks").insertOne(taskToCreate);
+      const taskExist = await TaskController.checkTaskExist(taskToCreate._id);
+      expect(taskExist).toBe(true);
+    });
+    it("should return false if task does not exist", async () => {
+      const taskExist = await TaskController.checkTaskExist("invalidId");
+      expect(taskExist).toBe(false);
+    });
+  });
+
+  describe("throwErrorIfTaskNotExist", () => {
+    it("should throw an error if task does not exist", async () => {
+      expect(
+        TaskController.throwErrorIfTaskNotExist("invalidId")
+      ).rejects.toThrow("Task not found");
+    });
+  });
+
   describe("createTask", () => {
     it("should create a new task", async () => {
       const taskToCreate = new Task(
