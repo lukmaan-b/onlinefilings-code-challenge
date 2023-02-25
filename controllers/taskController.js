@@ -170,7 +170,11 @@ class TaskController {
     if (sortDate === "doneDate") {
       tasks = await db
         .collection("tasks")
-        .find({ doneDate: { $exists: true } })
+        .find({$and: [
+         {doneDate: {$ne: null,}},
+         {doneDate: {$exists: true }}
+        
+        ]} )
         .sort(sort)
         .toArray();
     } else {

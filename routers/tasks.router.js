@@ -130,7 +130,7 @@ router.get("/name/:name", async (req, res) => {
  */
 router.get("/sort/date/:sortType", async (req, res) => {
   try {
-    const tasks = await TaskController.getTasksSortedByDate(
+    const tasks = await TaskController.getTasksBySortDate(
       req.params.sortType
     );
     res.send(tasks);
