@@ -68,17 +68,19 @@ class TaskController {
    * @param {string} dueDate New task due date
    * @returns {Task} Returns the updated task
    */
-  static async updateTask(id, name,dueDate) {
+  static async updateTask(id, name, dueDate) {
     await this.throwErrorIfTaskNotExist(id);
     const db = getDb();
-    const taskInDB = await db.collection('tasks').findOne({ _id: id });
-    const updatedTask = new Task(name, taskInDB.status, dueDate, taskInDB.startDate);
+    const taskInDB = await db.collection("tasks").findOne({ _id: id });
+    const updatedTask = new Task(
+      name,
+      taskInDB.status,
+      dueDate,
+      taskInDB.startDate
+    );
     await db
       .collection("tasks")
-      .updateOne(
-        { _id: id },
-        { $set: { name, dueDate } }
-      );
+      .updateOne({ _id: id }, { $set: { name, dueDate } });
     return updatedTask;
   }
 
@@ -169,11 +171,9 @@ class TaskController {
     if (sortDate === "doneDate") {
       tasks = await db
         .collection("tasks")
-        .find({$and: [
-         {doneDate: {$ne: null,}},
-         {doneDate: {$exists: true }}
-        
-        ]} )
+        .find({
+          $and: [{ doneDate: { $ne: null } }, { doneDate: { $exists: true } }],
+        })
         .sort(sort)
         .toArray();
     } else {

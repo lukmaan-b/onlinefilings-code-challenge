@@ -27,8 +27,7 @@ router.post("/create", async (req, res) => {
       name,
       status,
       dueDate,
-      startDate,
-
+      startDate
     );
     res.send(newTask);
   } catch (error) {
@@ -55,13 +54,9 @@ router.get("/list", async (req, res) => {
  */
 router.patch("/:id", async (req, res) => {
   try {
-    const { name, dueDate} = req.body;
+    const { name, dueDate } = req.body;
     const id = new ObjectId(req.params.id);
-    const updatedTask = await TaskController.updateTask(
-      id,
-      name,
-      dueDate
-    );
+    const updatedTask = await TaskController.updateTask(id, name, dueDate);
     res.send(updatedTask);
   } catch (error) {
     console.error(error);
@@ -128,9 +123,7 @@ router.get("/name/:name", async (req, res) => {
  */
 router.get("/sort/date/:sortType", async (req, res) => {
   try {
-    const tasks = await TaskController.getTasksBySortDate(
-      req.params.sortType
-    );
+    const tasks = await TaskController.getTasksBySortDate(req.params.sortType);
     res.send(tasks);
   } catch (error) {
     console.error(error);

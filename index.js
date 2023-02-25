@@ -7,7 +7,7 @@ const PORT = 4000;
 app.use(express.json());
 
 // Connect to the local MongoDB database.
-connectDb('todoList');
+connectDb("todoList");
 const tasksRouter = require("./routers/tasks.router");
 const projectRouter = require("./routers/projects.router");
 const bonusRouter = require("./routers/bonus.router");
@@ -22,4 +22,4 @@ app.use("/projects", projectRouter);
 app.use("/bonus", bonusRouter);
 
 // Start the server
-app.listen(PORT,()=>console.log(`Server running - port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running - port ${PORT}`));
