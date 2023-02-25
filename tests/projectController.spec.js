@@ -10,7 +10,7 @@ const Task = require("../models/task");
 
 describe("projectController", () => {
   beforeAll(async () => {
-    await connectDb();
+    await connectDb("todoList-test");
   });
 
   afterEach(async () => {
@@ -132,7 +132,7 @@ describe("projectController", () => {
       const projectToCreate = new Project(
         "Project 1",
         "2023-03-01",
-        "2023-01-01"
+        "2023-04-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
       const taskToCreate = new Task(
@@ -286,17 +286,17 @@ describe("projectController", () => {
       const projectToCreate = new Project(
         "Project 1",
         "2023-01-03",
-        "2023-01-01"
+        "2023-03-01"
       );
       const projectToCreate2 = new Project(
         "Project 2",
         "2023-01-01",
-        "2023-01-01"
+        "2023-03-01"
       );
       const projectToCreate3 = new Project(
         "Project 3",
         "2023-01-02",
-        "2023-01-01"
+        "2023-03-01"
       );
       await getDb()
         .collection("projects")

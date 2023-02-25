@@ -38,8 +38,8 @@ class Project {
     this.name = name;
     this.startDate = startDate ? new Date(startDate) : new Date();
     this.dueDate = dueDate ? new Date(dueDate) : new Date();
-    checkRequiredFields();
-    checkValidFelids();
+    this.checkRequiredFields();
+    this.checkValidFelids();
   }
 }
 

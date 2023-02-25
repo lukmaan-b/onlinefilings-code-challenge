@@ -9,11 +9,11 @@ let connection;
 /**
  * connectDb
  * Connect to the MongoDB database and set the database connection.
- *
+ * @param {String} dbName The name of the database.
  */
-const connectDb = async () => {
+const connectDb = async (dbName) => {
   connection = await client.connect(); // Connect to the MongoDB database.
-  db = connection.db("todoList"); // Change to your own database name.
+  db = connection.db(dbName); // Change to your own database name.
   console.log("Connected to MongoDB");
 };
 

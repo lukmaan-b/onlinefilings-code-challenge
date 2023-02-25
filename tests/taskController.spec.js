@@ -4,7 +4,7 @@ const Task = require("../models/task");
 
 describe("taskController", () => {
   beforeAll(async () => {
-    await connectDb();
+    await connectDb("todoList-test");
   });
 
   afterEach(async () => {
