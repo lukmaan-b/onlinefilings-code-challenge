@@ -31,3 +31,10 @@ Contains buisness logic for node application.
 Contains express routers
 ### Models
 Object Data Structure 
+
+## Tests
+Tests are stored in ```/tests``` folder. Each controller has it's own test file.
+To run the tests:
+```
+npm run test
+```
