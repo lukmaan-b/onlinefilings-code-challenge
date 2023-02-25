@@ -10,6 +10,30 @@ const Task = require("../models/task");
  */
 class TaskController {
   /**
+   * checkTaskExist
+   * Checks if a task exist using it's id.
+   * @param {ObjectId} id Task id to check if exist.
+   * @returns {boolean} Returns true if task exist, false if not.
+   */
+  async checkTaskExist(id) {
+    const db = getDb();
+    const task = await db.collection("tasks").findOne({ _id: id });
+    return !!task;
+  }
+
+  /**
+   * throwErrorIfTaskNotExist
+   * Throws an error if a task does not exist.
+   * @param {ObjectId} id Task id to check if exist.
+   */
+  static async throwErrorIfTaskNotExist(id) {
+    const taskExist = await this.checkTaskExist(id);
+    if (!taskExist) {
+      throw new Error("Task not found");
+    }
+  }
+
+  /**
    * createTask
    * Creates a new task
    * @param {string} name Tasks name
@@ -48,10 +72,7 @@ class TaskController {
    */
   static async updateTask(id, name) {
     const db = getDb();
-    const taskExist = db.collection("tasks").findOne({ _id: id });
-    if (!taskExist) {
-      throw new Error("Task not found");
-    }
+    await this.throwErrorIfTaskNotExist(id);
     await db.collection("tasks").updateOne({ _id: id }, { $set: { name } });
     return updatedTask;
   }
@@ -62,6 +83,7 @@ class TaskController {
    * @param {ObjectId} id  Task id to delete.
    */
   static async deleteTask(id) {
+    await this.throwErrorIfTaskNotExist(id);
     const db = getDb();
     const taskExist = await db.collection("tasks").findOne({ _id: id });
     if (!taskExist) {
@@ -77,15 +99,13 @@ class TaskController {
    */
   static async toggleTaskCompletion(id) {
     const db = getDb();
-    const taskExist = await db.collection("tasks").findOne({ _id: id });
-    if (!taskExist) {
-      throw new Error("Task not found");
-    }
-
+    await this.throwErrorIfTaskNotExist(id);
     let set = {};
-    if (taskExist.status === "done") { // If task is done, mark it as to-do, remove done date and set start date to now.
+    if (taskExist.status === "done") {
+      // If task is done, mark it as to-do, remove done date and set start date to now.
       set = { status: "to-do", doneDate: null, startDate: new Date() };
-    } else { // Else if task is not done, mark it as done and set done date.
+    } else {
+      // Else if task is not done, mark it as done and set done date.
       set = { status: "done", doneDate: new Date() };
     }
     await db.collection("tasks").updateOne({ _id: id }, { $set: set });

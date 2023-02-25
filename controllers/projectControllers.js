@@ -10,6 +10,30 @@ const Task = require("../models/task");
  */
 class ProjectController {
   /**
+   * checkProjectExist
+   * Checks if a project exist using it's id.
+   * @param {ObjectId} id Project id to check if exist.
+   * @returns {boolean} Returns true if project exist, false if not.
+   */
+  async checkProjectExist(id) {
+    const db = getDb();
+    const project = !!db.collection("projects").findOne({ _id: id });
+    return !!project;
+  }
+
+  /**
+   * throwErrorIfProjectNotExist
+   * Throws an error if a project does not exist.
+   * @param {ObjectId} id Project id to check if exist.
+   */
+  async throwErrorIfProjectNotExist(id) {
+    const projectExist = await this.checkProjectExist(id);
+    if (!projectExist) {
+      throw new Error("Project not found");
+    }
+  }
+
+  /**
    * createProject
    * Creates a new project
    * @param {string} name Project name
@@ -46,10 +70,7 @@ class ProjectController {
    */
   static async updateProject(id, name, startDate, dueDate) {
     const db = getDb();
-    const projectExist = db.collection("projects").findOne({ _id: id });
-    if (!projectExist) {
-      throw new Error("Project not found");
-    }
+    await this.throwErrorIfProjectNotExist(id);
     const updatedProject = new Project(name, startDate, dueDate);
     await db
       .collection("projects")
@@ -64,10 +85,7 @@ class ProjectController {
    *
    */
   static async deleteProject(id) {
-    const projectExist = await db.collection("projects").findOne({ _id: id });
-    if (!projectExist) {
-      return res.status(400).send("Project not found");
-    }
+    await this.throwErrorIfProjectNotExist(id);
     await db.collection("projects").deleteOne({ _id: id });
   }
 
@@ -81,6 +99,11 @@ class ProjectController {
    *
    */
   static async assignTaskToProject(projectId, taskId) {
+    // Check if project and task exist
+    await this.throwErrorIfProjectNotExist(projectId);
+    await TaskController.throwErrorIfTaskNotExist(taskId);
+
+    // Check if task is already assigned to a project
     const taskAssignedToProject = await db
       .collection("projects")
       .aggregate([
@@ -99,12 +122,14 @@ class ProjectController {
         },
       ])
       .toArray();
+
+    // If task is already assigned to this project do nothing.
     if (
       taskAssignedToProject.length > 0 &&
       taskAssignedToProject[0]._id === projectId
     ) {
       return;
-    } else if (
+    } else if ( // If task is assigned to another project, remove it from that project.
       taskAssignedToProject.length > 0 &&
       taskAssignedToProject[0]._id !== projectId
     ) {
