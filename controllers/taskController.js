@@ -15,7 +15,7 @@ class TaskController {
    * @param {ObjectId} id Task id to check if exist.
    * @returns {boolean} Returns true if task exist, false if not.
    */
-  async checkTaskExist(id) {
+  static async checkTaskExist(id) {
     const db = getDb();
     const task = await db.collection("tasks").findOne({ _id: id });
     return !!task;
@@ -44,7 +44,7 @@ class TaskController {
    */
   static async createTask(name, status, dueDate, startDate) {
     const db = getDb();
-    const newTask = new Task(name, status, startDate, dueDate);
+    const newTask = new Task(name, status, dueDate, startDate);
     await db.collection("tasks").insertOne(newTask);
     return newTask;
   }
@@ -65,19 +65,22 @@ class TaskController {
    * Updates a task using it's id.
    * @param {ObjectId} id Task id to update.
    * @param {string} name New task name
-   * @param {string} status New task status
-   * @param {string} dueDate New task due date
-   * @param {string} startDate New task start date
    * @returns {Task} Returns the updated task
    */
   static async updateTask(id, name) {
     await this.throwErrorIfTaskNotExist(id);
-    if(!name || name === "") {
+    if (!name || name === "") {
       throw new Error("Name is required");
     }
     const db = getDb();
-    await db.collection("tasks").updateOne({ _id: id }, { $set: { name } });
-    return updatedTask;
+    const updatedTask = await db
+      .collection("tasks")
+      .findOneAndUpdate(
+        { _id: id },
+        { $set: { name } },
+        { returnDocument: "after" }
+      );
+    return updatedTask.value;
   }
 
   /**
@@ -88,10 +91,6 @@ class TaskController {
   static async deleteTask(id) {
     await this.throwErrorIfTaskNotExist(id);
     const db = getDb();
-    const taskExist = await db.collection("tasks").findOne({ _id: id });
-    if (!taskExist) {
-      throw new Error("Task not found");
-    }
     await db.collection("tasks").deleteOne({ _id: id });
   }
 
@@ -101,8 +100,11 @@ class TaskController {
    * @param {ObjectId} id  Task id to mark as done.
    */
   static async toggleTaskCompletion(id) {
-    await this.throwErrorIfTaskNotExist(id);
     const db = getDb();
+    const taskExist = await db.collection("tasks").findOne({ _id: id });
+    if (!taskExist) {
+      throw new Error("Task not found");
+    }
     let set = {};
     if (taskExist.status === "done") {
       // If task is done, mark it as to-do, remove done date and set start date to now.
@@ -136,7 +138,7 @@ class TaskController {
    * @returns {Task[]} Returns all tasks with the given name.
    */
   static async getTasksByName(name) {
-    if(!name || name.length === 0) {
+    if (!name || name.length === 0) {
       throw new Error("Name is required");
     }
     const db = getDb();
@@ -164,11 +166,16 @@ class TaskController {
     const db = getDb();
     const sort = {};
     sort[sortDate] = 1;
-    const tasks = await db
-      .collection("tasks")
-      .find({ doneDate: { $exists: true } })
-      .sort(sort)
-      .toArray();
+    let tasks = [];
+    if (sortDate === "doneDate") {
+      tasks = await db
+        .collection("tasks")
+        .find({ doneDate: { $exists: true } })
+        .sort(sort)
+        .toArray();
+    } else {
+      tasks = await db.collection("tasks").find().sort(sort).toArray();
+    }
     return tasks;
   }
 }

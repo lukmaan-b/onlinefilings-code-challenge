@@ -15,7 +15,7 @@ class ProjectController {
    * @param {ObjectId} id Project id to check if exist.
    * @returns {boolean} Returns true if project exist, false if not.
    */
-  async checkProjectExist(id) {
+  static async checkProjectExist(id) {
     const db = getDb();
     const project = !!db.collection("projects").findOne({ _id: id });
     return !!project;
@@ -129,7 +129,8 @@ class ProjectController {
       taskAssignedToProject[0]._id === projectId
     ) {
       return;
-    } else if ( // If task is assigned to another project, remove it from that project.
+    } else if (
+      // If task is assigned to another project, remove it from that project.
       taskAssignedToProject.length > 0 &&
       taskAssignedToProject[0]._id !== projectId
     ) {
