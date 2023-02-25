@@ -71,8 +71,11 @@ class TaskController {
    * @returns {Task} Returns the updated task
    */
   static async updateTask(id, name) {
-    const db = getDb();
     await this.throwErrorIfTaskNotExist(id);
+    if(!name || name === "") {
+      throw new Error("Name is required");
+    }
+    const db = getDb();
     await db.collection("tasks").updateOne({ _id: id }, { $set: { name } });
     return updatedTask;
   }
@@ -98,8 +101,8 @@ class TaskController {
    * @param {ObjectId} id  Task id to mark as done.
    */
   static async toggleTaskCompletion(id) {
-    const db = getDb();
     await this.throwErrorIfTaskNotExist(id);
+    const db = getDb();
     let set = {};
     if (taskExist.status === "done") {
       // If task is done, mark it as to-do, remove done date and set start date to now.
@@ -133,6 +136,9 @@ class TaskController {
    * @returns {Task[]} Returns all tasks with the given name.
    */
   static async getTasksByName(name) {
+    if(!name || name.length === 0) {
+      throw new Error("Name is required");
+    }
     const db = getDb();
     const tasks = await db
       .collection("tasks")
