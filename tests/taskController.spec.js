@@ -20,7 +20,7 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -46,7 +46,7 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const task = await TaskController.createTask(
@@ -64,13 +64,13 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertMany([taskToCreate, taskToCreate2]);
@@ -84,13 +84,13 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToUpdate = new Task(
         "Test task updated",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -107,7 +107,7 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -123,7 +123,7 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -138,11 +138,11 @@ describe("taskController", () => {
         .findOne({ _id: taskToCreate._id });
       expect(updatedTaskInDb.status).toBe("to-do");
     });
-    it("should reset start date when marking a task as to-do", async () => {
+    it("should reset start date to today's date when marking a task as to-do", async () => {
       const taskToCreate = new Task(
         "Test task",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const todayDate = new Date();
@@ -162,7 +162,7 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const todayDate = new Date();
@@ -185,19 +185,19 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate3 = new Task(
         "Test task 3",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -213,19 +213,19 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate3 = new Task(
         "Task",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -241,19 +241,19 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-03"
       );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-01"
       );
       const taskToCreate3 = new Task(
         "Test",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -268,21 +268,21 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       )
       taskToCreate.doneDate = new Date("2023-01-03");
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       taskToCreate2.doneDate = new Date("2023-01-01");
       const taskToCreate3 = new Task(
         "Test",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       taskToCreate3.doneDate = new Date("2023-01-02");
@@ -298,19 +298,19 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-03",
+        "2023-03-03",
         "2023-02-02"
       );
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       const taskToCreate3 = new Task(
         "Test",
         "done",
-        "2023-01-02",
+        "2023-03-02",
         "2023-02-02"
       );
       await getDb().collection("tasks").insertOne(taskToCreate);
@@ -325,20 +325,20 @@ describe("taskController", () => {
       const taskToCreate = new Task(
         "Test task",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       )
       const taskToCreate2 = new Task(
         "Test task 2",
         "to-do",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       taskToCreate2.doneDate = new Date("2023-01-01");
       const taskToCreate3 = new Task(
         "Test",
         "done",
-        "2023-01-01",
+        "2023-03-01",
         "2023-02-02"
       );
       taskToCreate3.doneDate = new Date("2023-01-02");

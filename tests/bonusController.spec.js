@@ -18,7 +18,7 @@ describe("bounsController", () => {
   });
 
   describe("getAllProjectsWithDueTasks", () => {
-    it.only("should return all projects with due tasks", async () => {
+    it("should return all projects with due tasks", async () => {
       const projectToCreate = new Project(
         "Project 1",
         "2023-01-01",

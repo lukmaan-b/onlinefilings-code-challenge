@@ -131,11 +131,11 @@ describe("projectController", () => {
     it("should assign a task to a project", async () => {
       const projectToCreate = new Project(
         "Project 1",
-        "2023-01-01",
+        "2023-03-01",
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1", "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task("Task 1",'to-do', "2023-03-01", "2023-01-01");
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -153,7 +153,7 @@ describe("projectController", () => {
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1", "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task("Task 1",'to-do', "2023-01-01", "2023-01-01");
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -182,7 +182,7 @@ describe("projectController", () => {
       await getDb()
         .collection("projects")
         .insertMany([projectToCreate, projectToCreate2]);
-      const taskToCreate = new Task("Task 1", "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task("Task 1",'to-do', "2023-01-01", "2023-01-01");
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -208,7 +208,7 @@ describe("projectController", () => {
         "2023-01-01"
       );
       await getDb().collection("projects").insertOne(projectToCreate);
-      const taskToCreate = new Task("Task 1", "2023-01-01", "2023-01-01");
+      const taskToCreate = new Task("Task 1",'to-do', "2023-03-01", "2023-01-01");
       await getDb().collection("tasks").insertOne(taskToCreate);
       await ProjectController.assignTaskToProject(
         projectToCreate._id,
@@ -225,11 +225,11 @@ describe("projectController", () => {
     it('should get all tasks by project name', async () => {
       const projectToCreate = new Project('Project 1', '2023-01-01', '2023-01-01');
       await getDb().collection('projects').insertOne(projectToCreate);
-      const taskToCreate = new Task('Task 1', '2023-01-01', '2023-01-01');
+      const taskToCreate = new Task('Task 1','to-do', '2023-01-01', '2023-01-01');
       taskToCreate.projectId = projectToCreate._id;
-      const taskToCreate2 = new Task('Task 2', '2023-01-01', '2023-01-01');
+      const taskToCreate2 = new Task('Task 2','to-do', '2023-01-01', '2023-01-01');
       taskToCreate2.projectId = projectToCreate._id;
-      const taskToCreate3 = new Task('Task 3', '2023-01-01', '2023-01-01');
+      const taskToCreate3 = new Task('Task 3','to-do', '2023-01-01', '2023-01-01');
       await getDb().collection('tasks').insertMany([taskToCreate, taskToCreate2, taskToCreate3]);
       const tasks = await ProjectController.getTasksByProjectName(projectToCreate.name);
       expect(tasks[0].projectId).toEqual(projectToCreate._id);
