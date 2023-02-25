@@ -91,7 +91,7 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id/done", async (req, res) => {
   try {
     const id = new ObjectId(req.params.id);
-    await TaskController.markTaskAsDone(id);
+    await TaskController.toggleTaskCompletion(id);
     res.send("Task Completed");
   } catch (error) {
     console.error(error);
