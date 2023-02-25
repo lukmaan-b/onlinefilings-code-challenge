@@ -3,7 +3,7 @@
  * The routes are:
  * POST /tasks/create - Create a new task.
  * GET /tasks/list - Get all tasks.
- * PUT /tasks/:id - Update a task.
+ * PATCH /tasks/:id - Update a task.
  * DELETE /tasks/:id - Delete a task.
  * POST /tasks/:id/done - Mark a task as done.
  * GET /tasks/status/:status - Get all tasks with a specific status.
@@ -53,7 +53,7 @@ router.get("/list", async (req, res) => {
 /**
  * Update a task.
  */
-router.put("/:id", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   try {
     const { name, status, dueDate, startDate } = req.body;
     const id = new ObjectId(req.params.id);
